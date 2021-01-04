@@ -153,73 +153,79 @@ namespace AVS5
 
         static void EndTest(List<Question> questionsForTest)
         {
-            Console.Clear();
-            int amountOfRhightAnswers = questionsForTest.Where(q => q.IsRight == true).Count();
-            Console.WriteLine($"Результат {amountOfRhightAnswers} из {questionsForTest.Count} ({(int)((double)amountOfRhightAnswers / questionsForTest.Count * 100)}%)\n");
-            Console.WriteLine("Выберите опцию:");
-            Console.WriteLine("1 - Просмотр всех отвеченных вопросов");
-            Console.WriteLine("2 - Просмотр вопросов с неверным ответом");
-            Console.WriteLine("3 - Работа над ошибками");
-            Console.WriteLine("4 - Выход");
-            int option = EnterIntInRange(1, 4);
-            switch (option)
+            bool exit = false;
+            while(!exit)
             {
-                case 1:
-                    {
-                        Console.Clear();
-                        foreach (Question q in questionsForTest)
+                Console.Clear();
+                int amountOfRhightAnswers = questionsForTest.Where(q => q.IsRight == true).Count();
+                Console.WriteLine($"Результат {amountOfRhightAnswers} из {questionsForTest.Count} ({(int)((double)amountOfRhightAnswers / questionsForTest.Count * 100)}%)\n");
+                Console.WriteLine("Выберите опцию:");
+                Console.WriteLine("1 - Просмотр всех отвеченных вопросов");
+                Console.WriteLine("2 - Просмотр вопросов с неверным ответом");
+                Console.WriteLine("3 - Работа над ошибками");
+                Console.WriteLine("4 - Выход");
+                int option = EnterIntInRange(1, 4);
+                switch (option)
+                {
+                    case 1:
                         {
-                            if (!q.IsRight)
-                                Console.WriteLine("\n*************WRONG*************");
-                            else
+                            Console.Clear();
+                            foreach (Question q in questionsForTest)
+                            {
+                                if (!q.IsRight)
+                                    Console.WriteLine("\n*************WRONG*************");
+                                else
+                                    Console.WriteLine("\n*******************************");
+                                Console.WriteLine(q);
+                                Console.WriteLine($"\nПравильный ответ: {q.RightAnswer}\nВаш ответ: {q.ChosenAnswer}\n");
+                            }
+                            Console.WriteLine("Нажмите любую клавишу для выхода");
+                            Console.ReadKey();
+                            break;
+                        }
+                    case 2:
+                        {
+                            Console.Clear();
+                            if (questionsForTest.Where(qu => qu.IsRight == false).Count() == 0)
+                            {
+                                Console.WriteLine("Empty list");
+                                break;
+                            }
+                            foreach (Question q in questionsForTest.Where(qu => qu.IsRight == false))
+                            {
                                 Console.WriteLine("\n*******************************");
-                            Console.WriteLine(q);
-                            Console.WriteLine($"\nПравильный ответ: {q.RightAnswer}\nВаш ответ: {q.ChosenAnswer}\n");
-                        }
-                        Console.WriteLine("Нажмите любую клавишу для выхода");
-                        Console.ReadKey();
-                        break;
-                    }
-                case 2:
-                    {
-                        Console.Clear();
-                        if (questionsForTest.Where(qu => qu.IsRight == false).Count() == 0)
-                        {
-                            Console.WriteLine("Empty list");
+                                Console.WriteLine(q);
+                                Console.WriteLine($"Правильный ответ: {q.RightAnswer}\nВаш ответ: {q.ChosenAnswer}\n");
+                            }
+                            Console.WriteLine("Нажмите любую клавишу для выхода");
+                            Console.ReadKey();
                             break;
                         }
-                        foreach (Question q in questionsForTest.Where(qu => qu.IsRight == false))
+                    case 3:
                         {
-                            Console.WriteLine("\n*******************************");
-                            Console.WriteLine(q);
-                            Console.WriteLine($"Правильный ответ: {q.RightAnswer}\nВаш ответ: {q.ChosenAnswer}\n");
-                        }
-                        Console.WriteLine("Нажмите любую клавишу для выхода");
-                        Console.ReadKey();
-                        break;
-                    }
-                case 3:
-                    {
-                        List<Question> notRightQuestionsForTest = new List<Question>();
-                        Console.Clear();
-                        if (questionsForTest.Where(qu => qu.IsRight == false).Count() == 0)
-                        {
-                            Console.WriteLine("Empty list");
+                            List<Question> notRightQuestionsForTest = new List<Question>();
+                            Console.Clear();
+                            if (questionsForTest.Where(qu => qu.IsRight == false).Count() == 0)
+                            {
+                                Console.WriteLine("Empty list");
+                                break;
+                            }
+                            foreach (Question q in questionsForTest.Where(qu => qu.IsRight == false))
+                            {
+                                q.IsRandomized = false;
+                                notRightQuestionsForTest.Add(q);
+                            }
+                            BeginTest(notRightQuestionsForTest);
+                            exit = true;
                             break;
                         }
-                        foreach (Question q in questionsForTest.Where(qu => qu.IsRight == false))
+                    case 4:
                         {
-                            q.IsRandomized = false;
-                            notRightQuestionsForTest.Add(q);
+                            Console.Clear();
+                            exit = true;
+                            break;
                         }
-                        BeginTest(notRightQuestionsForTest);
-                        break;
-                    }
-                case 4:
-                    {
-                        Console.Clear();
-                        break;
-                    }
+                }
             }
         }
 
