@@ -159,8 +159,9 @@ namespace AVS5
             Console.WriteLine("Выберите опцию:");
             Console.WriteLine("1 - Просмотр всех отвеченных вопросов");
             Console.WriteLine("2 - Просмотр вопросов с неверным ответом");
-            Console.WriteLine("3 - Выход");
-            int option = EnterIntInRange(1, 3);
+            Console.WriteLine("3 - Работа над ошибками");
+            Console.WriteLine("4 - Выход");
+            int option = EnterIntInRange(1, 4);
             switch (option)
             {
                 case 1:
@@ -198,6 +199,22 @@ namespace AVS5
                         break;
                     }
                 case 3:
+                    {
+                        List<Question> notRightQuestionsForTest = new List<Question>();
+                        Console.Clear();
+                        if (questionsForTest.Where(qu => qu.IsRight == false).Count() == 0)
+                        {
+                            Console.WriteLine("Empty list");
+                            break;
+                        }
+                        foreach (Question q in questionsForTest.Where(qu => qu.IsRight == false))
+                        {
+                            notRightQuestionsForTest.Add(q);
+                        }
+                        BeginTest(notRightQuestionsForTest);
+                        break;
+                    }
+                case 4:
                     {
                         Console.Clear();
                         break;
