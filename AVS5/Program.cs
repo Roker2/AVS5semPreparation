@@ -223,6 +223,8 @@ namespace AVS5
                     case 4:
                         {
                             Console.Clear();
+                            if (SHUFFLETHENTAKE)
+                                questions.Shuffle();
                             TestSetup();
                             exit = true;
                             break;
