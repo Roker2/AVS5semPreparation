@@ -209,6 +209,7 @@ namespace AVS5
                         }
                         foreach (Question q in questionsForTest.Where(qu => qu.IsRight == false))
                         {
+                            q.IsRandomized = false;
                             notRightQuestionsForTest.Add(q);
                         }
                         BeginTest(notRightQuestionsForTest);
