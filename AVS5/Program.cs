@@ -163,8 +163,9 @@ namespace AVS5
                 Console.WriteLine("1 - Просмотр всех отвеченных вопросов");
                 Console.WriteLine("2 - Просмотр вопросов с неверным ответом");
                 Console.WriteLine("3 - Работа над ошибками");
-                Console.WriteLine("4 - Выход");
-                int option = EnterIntInRange(1, 4);
+                Console.WriteLine("4 - Новый тест");
+                Console.WriteLine("5 - Выход");
+                int option = EnterIntInRange(1, 5);
                 switch (option)
                 {
                     case 1:
@@ -220,6 +221,13 @@ namespace AVS5
                             break;
                         }
                     case 4:
+                        {
+                            Console.Clear();
+                            TestSetup();
+                            exit = true;
+                            break;
+                        }
+                    case 5:
                         {
                             Console.Clear();
                             exit = true;
